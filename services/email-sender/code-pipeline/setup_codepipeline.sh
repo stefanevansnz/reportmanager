@@ -1,0 +1,2 @@
+# change DNS Name Servers to point to route 53 hosted zone
+cfn-create-or-update --profile reporter --region ap-southeast-2 --template-body file://codepipeline.yml --stack-name emailsender-pipeline --capabilities CAPABILITY_IAM --parameters ParameterKey=PipelineName,ParameterValue=EmailSenderLambdaDeployment

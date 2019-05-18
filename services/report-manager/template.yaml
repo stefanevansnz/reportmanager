@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    Reporter Bot
+    
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+
+    Function:
+        Timeout: 900
+        Tracing: Active      
+        MemorySize: 512     
+        Runtime: nodejs8.10
+        Environment:
+            Variables:
+                TABLE_NAME: !Ref ReportTable
+
+    Api:
+        Cors:
+            AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
+            AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+            AllowOrigin: "'*'"
+
+Resources:
+    ReporterBotFunction:
+        Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+        Properties:
+            Handler: app.lambdaHandler
+            FunctionName: ReporterBotFunction
+            Runtime: nodejs8.10
+            Policies: 
+                - DynamoDBCrudPolicy:
+                    TableName: !Ref ReportTable                        
+            Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+                Variables:
+                    PARAM1: VALUE
+            Events:
+                Options:
+                    Type: Api
+                    Properties:
+                        Path: /{cors+}
+                        Method: options               
+                GetReports:
+                    Type: Api 
+                    Properties:
+                        Path: /reports
+                        Method: get   
+                GetReport:
+                    Type: Api 
+                    Properties:
+                        Path: /report/{id+}
+                        Method: get                                        
+                PutReports:
+                    Type: Api 
+                    Properties:
+                        Path: /reports
+                        Method: post
+                DeleteReports:
+                    Type: Api 
+                    Properties:
+                        Path: /reports
+                        Method: delete                        
+    ReportTable:
+        Type: AWS::DynamoDB::Table
+        Properties: 
+            AttributeDefinitions: 
+                - 
+                    AttributeName: userid
+                    AttributeType: S
+                - 
+                    AttributeName: id
+                    AttributeType: S            
+            KeySchema: 
+                - 
+                    AttributeName: userid
+                    KeyType: HASH
+                - 
+                    AttributeName: id
+                    KeyType: RANGE            
+            ProvisionedThroughput: 
+                ReadCapacityUnits: 1
+                WriteCapacityUnits: 1
+
+Outputs:
+
+    ReporterBotApi:
+      Description: "API Gateway endpoint URL for Prod stage for Reporter Bot function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+    ReporterBotFunction:
+      Description: "Reporter Bot Lambda Function ARN"
+      Value: !GetAtt ReporterBotFunction.Arn
+
+    ReporterBotFunctionIamRole:
+      Description: "Implicit IAM Role created for Reporter Bot function"
+      Value: !GetAtt ReporterBotFunctionRole.Arn

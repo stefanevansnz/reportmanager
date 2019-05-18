@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Consegna ODM Infrastructure Report</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <main class="col-md-12 ml-sm-auto col-lg-12 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-0">
+            <h1 class="h2">
+                <img src="consegna-logo.png" style="width:230px;height:65px">
+            </h1>
+          </div>
+          <div replace="prtg-summary" class="table-responsive">
+                <h2>Report for Production [EC2] - PRTG Network Monitor</h2>
+                <table class="table">
+                <tbody>
+                <tr>
+                <th>Report Time Span:</th>
+                <td colspan="6">2019-01-01-00-00-00 - 2019-02-01-00-00-00</td>
+                </tr>
+                <tr>
+                <th>Sensor Type:</th>
+                <td colspan="6">Amazon CloudWatch EC2 BETA (15 m Interval)</td>
+                </tr>
+                <tr>
+                <th class="title">Uptime Stats:</th>
+                <td>Up:</td>
+                <td class="rightalign">100 %<div class="colorflag colorflag-ok">&nbsp;</div></td>
+                <td>Down:</td>
+                <td class="rightalign">0 %<div class="colorflag colorflag-ok">&nbsp;</div></td>
+                </tr>
+                </tbody>
+                </table>
+                </div>
+                <div replace="prtg-img">
+                <img class="main-img" src="https://monitoring.company.com/chart.svg?graphid=-1&id=111&avg=3600&clgid={D6BCEC62-05AD-4CE2-A08A-650E9DAEC7B8}&width=1250&height=470&graphstyling=baseFontSize=%2714%27%20showLegend=%271%27%20tooltexts=%271%27&sdate=2019-01-01-00-00-00&edate=2019-02-01-00-00-00&username=user%2Ename%2Bcompany%2Ecom&passhash=1234">
+                </div>
+                <div replace="prtg-stats" class="table-responsive">
+                <table class="table">
+                <tbody>
+                <tr>
+                <th>CPU Utilization</th>
+                <th>Network In</th>
+                <th>Network Out</th>
+                <th>Read Ops</th>
+                <th>Write Ops</th>
+                <th>Disk Read</th>
+                <th>Disk Write</th>
+                <th>CPU Credit Usage</th>
+                <th>CPU Credit Balance</th>
+                <th>Status (Ok)</th>
+                <th>Status (Instance) (Ok)</th>
+                <th>Status (System) (Ok)</th>
+                <th>Downtime</th>
+                </tr>
+                <tr>
+                <td>0.17 %</td>
+                <td>0.09 kbit/s</td>
+                <td>0.40 kbit/s</td>
+                <td>0 #/s</td>
+                <td>0 #/s</td>
+                <td>0 Mbit/s</td>
+                <td>0 Mbit/s</td>
+                <td>0.01 #</td>
+                <td>576 #</td>
+                <td>100 %</td>
+                <td>100 %</td>
+                <td>100 %</td>
+                <td>0 %</td>
+                </tr>
+                </tbody>
+                </table>
+                </div>
+        </main>
+      </div>
+    </div>  
+  </body>
+</html>

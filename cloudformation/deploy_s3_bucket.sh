@@ -1,0 +1,2 @@
+# change DNS Name Servers to point to route 53 hosted zone
+cfn-create-or-update --region ap-southeast-2 --template-body file://yaml/s3.yaml --stack-name autoreporto-s3-bucket --parameters ParameterKey=DomainName,ParameterValue=autoreporto.com

@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  DomainName:
+    Type: String
+    Description: Domain Name from CloudFront Distribution to create s3 bucket
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${DomainName}-dist.s3.amazonaws.com'
+Outputs:
+  BucketName:
+    Description: 'Name of the S3 bucket storing the static files.'
+    Value: !Ref S3Bucket
+    Export:
+      Name: !Sub '${AWS::StackName}-BucketName'
+
+
+
+       

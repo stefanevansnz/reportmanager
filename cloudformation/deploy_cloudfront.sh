@@ -1,0 +1,2 @@
+# change DNS Name Servers to point to route 53 hosted zone
+cfn-create-or-update --region ap-southeast-2 --template-body file://yaml/cloudfront.yaml --stack-name autoreporto-cloudfront --parameters ParameterKey=DomainName,ParameterValue=autoreporto.com ParameterKey=AcmCertificateArn,ParameterValue=arn:aws:acm:us-east-1:<<CONFIRM_DETAILS>>:certificate/5782c8a6-dbee-4419-b116-3b7ee539a696

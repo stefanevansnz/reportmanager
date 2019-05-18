@@ -1,0 +1,28 @@
+<div class="row">
+  <div id="reports" class="col-md-12">
+      <h1>Report Preview - {{report.id}} - {{report.title}}</h1>
+      <button 
+      class="edit-report btn btn-success float-right edit" 
+      (click)="onGenerateEmailPDF(report.id)"         
+      type="submit" >
+      Email this report
+      </button>  
+      <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                <li class="list-group-item">To: stefan.evans@consegna.cloud</li>
+                <li class="list-group-item">Subject: ODM Infrastructure Report</li>
+                <li class="list-group-item">Message: Your report is ready</li>
+            </ul>
+        </div>
+      </div>      
+
+      <div *ngIf="reportLoading; else reportLoaded">
+      <i class="fa fa-refresh fa-spin"></i> Loading Preview Report...
+      </div>             
+      <ng-template #reportLoaded>          
+      <div [innerHTML]="htmlResult | sanitizeHtml"></div>
+      </ng-template>   
+
+  </div>
+</div>

@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  EmailSender:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: nodejs8.10
+      Handler: app.handler
+      Environment:
+          Variables:
+              PARAM1: VALUE
+      Timeout: 900
+      MemorySize: 512
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - AmazonSESFullAccess
+        - AmazonS3FullAccess
+      Events:
+        EmailSender:
+          Type: Api
+          Properties:
+            Path: /emailsender
+            Method: get
+Outputs:
+    EmailSenderApi:
+      Description: "API Gateway endpoint URL for Prod stage for emailsender function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/emailsender/"
+
+    EmailSenderFunction:
+      Description: "Emailsender Lambda Function ARN"
+      Value: !GetAtt EmailSender.Arn
+
+    EmailSenderFunctionIamRole:
+      Description: "Implicit IAM Role created for EmailSender function"
+      Value: !GetAtt EmailSender.Arn

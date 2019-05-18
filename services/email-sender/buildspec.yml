@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+      - aws cloudformation package --template-file template.yaml --s3-bucket reporterbotdeploymentbucket --output-template-file template-sam-emailsender.yaml
+      - aws cloudformation deploy --template-file template-sam-emailsender.yaml --stack-name emailsender-sam-build --capabilities CAPABILITY_IAM
+      - aws cloudformation describe-stacks --stack-name emailsender-sam-build --query 'Stacks[].Outputs'
+artifacts:
+  type: zip
+  files:
+    - template.yaml
+    - outputSamTemplate.yaml
+# https://aws.amazon.com/blogs/compute/developing-net-core-aws-lambda-functions/

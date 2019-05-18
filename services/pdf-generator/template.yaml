@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  GeneratePDF:
+    Type: "AWS::Serverless::Function"
+    Properties:
+      Runtime: nodejs8.10
+      Handler: app.handler
+      Environment:
+          Variables:
+              PARAM1: VALUE
+      Timeout: 900
+      MemorySize: 512
+      Events:
+        PdfGenerate:
+          Type: Api
+          Properties:
+            Path: /generatepdf
+            Method: get
+Outputs:
+    PDFGeneratorApi:
+      Description: "API Gateway endpoint URL for Prod stage for generatepdf function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/generatepdf/"
+
+    PDFGeneratorFunction:
+      Description: "Generatepdf Lambda Function ARN"
+      Value: !GetAtt GeneratePDF.Arn
+
+    PDFGeneratorFunctionIamRole:
+      Description: "Implicit IAM Role created for generatepdf function"
+      Value: !GetAtt GeneratePDF.Arn

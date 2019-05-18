@@ -1,0 +1,131 @@
+  
+<!-- The Modal -->
+<div class="modal fade" id="editModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">      
+      <div class="modal-header">
+        <h4 class="modal-title">{{ editMode ? 'Edit' : 'Add' }} Report</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="!sureOfDelete">     
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12 form-group" >
+              <label for="title">Report Title</label>
+              <input 
+                type="text" id="title" class="form-control" name="title" ngModel required>
+            </div>   
+          </div>    
+          
+          <div class="row" *ngIf="message">
+              <div class="col-sm-12 form-group">
+                  <div class="alert alert-danger" role="alert">
+                      {{ message }}
+                  </div>   
+              </div>
+          </div>
+
+        </div>        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button 
+            id="save-report"
+            class="btn btn-success" 
+            type="submit" 
+            [disabled]="!f.valid"
+            *ngIf="!sureOfDelete">
+            {{ editMode ? 'Update' : 'Add' }}</button>   
+          <button 
+            id="delete-report"             
+            class="btn btn-danger" 
+            type="button"
+            (click)="onDeleteSure()" 
+            *ngIf="editMode">Delete</button>                                 
+          <button 
+            id="cancel-report" 
+            type="button" 
+            class="btn btn-secondary" 
+            (click)="closeSetModal()"              
+            data-dismiss="modal">Close</button>
+        </div>
+      </form>    
+      
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="sureOfDelete">     
+          <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-12 form-group">
+                    <label for="suredelete">Type the word DELETE below to remove {{ editReport.title }}.</label>                
+                    <input 
+                      type="text" id="suredelete" class="form-control" name="suredelete" ngModel required>
+                </div>   
+            </div> 
+            <div class="row" *ngIf="message">
+                <div class="col-sm-12 form-group">
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>   
+                </div>
+            </div>
+
+          </div>        
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button 
+              id="delete-report-sure"             
+              class="btn btn-danger" 
+              type="submit"
+              [disabled]="!f.valid"
+              *ngIf="editMode && sureOfDelete">Confirm Delete</button>                                 
+
+            <button 
+              id="cancel-report" 
+              type="button" 
+              class="btn btn-secondary" 
+              (click)="closeSetModal()"                
+              data-dismiss="modal">Close</button>
+          </div>
+        </form>    
+
+      
+
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+<div id="reports" class="col-md-12">
+
+    <div *ngIf="reportsLoading; else reportsLoaded">
+    <i class="fa fa-refresh fa-spin"></i> Loading your reports...
+    </div>       
+    <ng-template #reportsLoaded>
+    <h1>Your Reports</h1>
+    <button id="add-report" type="button" class="btn btn-primary" 
+      (click)="onAddObject()">Add</button>    
+    <ul class="list-group">
+      <li class="list-group-item"        
+        *ngFor="let report of reports; let i = index">
+
+        <button 
+        class="edit-report btn btn-success float-right edit" 
+        (click)="onEditObject(i, report)"         
+        type="submit" >
+        Edit</button>    
+
+        <button 
+        class="view-report btn btn-success float-right edit" 
+        (click)="onViewReports(i, report)"         
+        type="submit" >
+        Preview Report</button>        
+        
+        {{ report.title }} - ID: {{ report.id }} 
+      </li>
+    </ul>
+    </ng-template>   
+
+
+  </div>
+</div>
+
+  

@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    Sample SAM Template for sam-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+    Function:
+        Timeout: 60
+        Tracing: Active        
+
+
+Resources:
+
+    PRTGFunction:
+        Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+        Properties:
+            CodeUri: src/PRTG/bin/Release/netcoreapp2.1/publish/
+            Handler: PRTG::PRTG.Function::FunctionHandler
+            Runtime: dotnetcore2.1
+            Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+                Variables:
+                    PARAM1: VALUE
+            Events:
+                PRTG:
+                    Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+                    Properties:
+                        Path: /prtg
+                        Method: get
+
+Outputs:
+
+    PRTGApi:
+      Description: "API Gateway endpoint URL for Prod stage for PRTG function"
+      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/prtg/?id=4196&sdate=2018-10-29-00-00-00&edate=2018-11-01-00-00-00&username=&passhash="

@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+      - aws cloudformation package --template-file template.yaml --s3-bucket reporterbotdeploymentbucket --output-template-file template-sam-pdfgenerator.yaml
+      - aws cloudformation deploy --template-file template-sam-pdfgenerator.yaml --stack-name pdfgenerator-service --capabilities CAPABILITY_IAM
+      - aws cloudformation describe-stacks --stack-name pdfgenerator-service --query 'Stacks[].Outputs'
+artifacts:
+  type: zip
+  files:
+    - template.yaml
+    - outputSamTemplate.yaml
+# https://aws.amazon.com/blogs/compute/developing-net-core-aws-lambda-functions/

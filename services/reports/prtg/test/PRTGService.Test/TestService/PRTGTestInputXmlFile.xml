@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+  <histdata totalcount="72" listend="1">
+   <prtg-version>18.3.44.2059</prtg-version>
+   <item>
+    <datetime>10/29/2018 2:00:00 AM - 3:00:00 AM</datetime>
+    <datetime_raw>43401.5833333333</datetime_raw>
+    <value channel="CPU Utilization" channelid="1"/>
+    <value channel="Network In" channelid="2"/>
+    <value channel="Network Out" channelid="3"/>
+    <value channel="Read Ops" channelid="4"/>
+    <value channel="Write Ops" channelid="5"/>
+    <value channel="Disk Read" channelid="6"/>
+    <value channel="Disk Write" channelid="7"/>
+    <value channel="CPU Credit Usage" channelid="8"/>
+    <value channel="CPU Credit Balance" channelid="9"/>
+    <value channel="Status (Ok)" channelid="10"/>
+    <value channel="Status (Instance) (Ok)" channelid="11"/>
+    <value channel="Status (System) (Ok)" channelid="12"/>
+    <value channel="Downtime" channelid="-4"/>
+    <coverage>0 %</coverage>
+    <coverage_raw>0000000000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 3:00:00 AM - 4:00:00 AM</datetime>
+    <datetime_raw>43401.6250000000</datetime_raw>
+    <value channel="CPU Utilization" channelid="1"/>
+    <value channel="Network In" channelid="2"/>
+    <value channel="Network Out" channelid="3"/>
+    <value channel="Read Ops" channelid="4"/>
+    <value channel="Write Ops" channelid="5"/>
+    <value channel="Disk Read" channelid="6"/>
+    <value channel="Disk Write" channelid="7"/>
+    <value channel="CPU Credit Usage" channelid="8"/>
+    <value channel="CPU Credit Balance" channelid="9"/>
+    <value channel="Status (Ok)" channelid="10"/>
+    <value channel="Status (Instance) (Ok)" channelid="11"/>
+    <value channel="Status (System) (Ok)" channelid="12"/>
+    <value channel="Downtime" channelid="-4"/>
+    <coverage>0 %</coverage>
+    <coverage_raw>0000000000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 4:00:00 AM - 5:00:00 AM</datetime>
+    <datetime_raw>43401.6666666667</datetime_raw>
+    <value channel="CPU Utilization" channelid="1">0.14 %</value>
+    <value_raw channel="CPU Utilization" channelid="1">0.1354</value_raw>
+    <value channel="Network In" channelid="2">0.03 kbit/s</value>
+    <value_raw channel="Network In" channelid="2">4.3142</value_raw>
+    <value channel="Network Out" channelid="3">0.08 kbit/s</value>
+    <value_raw channel="Network Out" channelid="3">9.4238</value_raw>
+    <value channel="Read Ops" channelid="4">0 #/s</value>
+    <value_raw channel="Read Ops" channelid="4">0.0000</value_raw>
+    <value channel="Write Ops" channelid="5">0 #/s</value>
+    <value_raw channel="Write Ops" channelid="5">0.0000</value_raw>
+    <value channel="Disk Read" channelid="6">0 Mbit/s</value>
+    <value_raw channel="Disk Read" channelid="6">0.0000</value_raw>
+    <value channel="Disk Write" channelid="7">0 Mbit/s</value>
+    <value_raw channel="Disk Write" channelid="7">0.0000</value_raw>
+    <value channel="CPU Credit Usage" channelid="8">0.01 #</value>
+    <value_raw channel="CPU Credit Usage" channelid="8">0.0136</value_raw>
+    <value channel="CPU Credit Balance" channelid="9">576 #</value>
+    <value_raw channel="CPU Credit Balance" channelid="9">576.0000</value_raw>
+    <value channel="Status (Ok)" channelid="10">100 %</value>
+    <value_raw channel="Status (Ok)" channelid="10">4294968304</value_raw>
+    <value channel="Status (Instance) (Ok)" channelid="11">100 %</value>
+    <value_raw channel="Status (Instance) (Ok)" channelid="11">4294968304</value_raw>
+    <value channel="Status (System) (Ok)" channelid="12">100 %</value>
+    <value_raw channel="Status (System) (Ok)" channelid="12">4294968304</value_raw>
+    <value channel="Downtime" channelid="-4">0 %</value>
+    <value_raw channel="Downtime" channelid="-4">0.0000</value_raw>
+    <coverage>100 %</coverage>
+    <coverage_raw>0000010000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 5:00:00 AM - 6:00:00 AM</datetime>
+    <datetime_raw>43401.7083333333</datetime_raw>
+    <value channel="CPU Utilization" channelid="1">0.13 %</value>
+    <value_raw channel="CPU Utilization" channelid="1">0.1346</value_raw>
+    <value channel="Network In" channelid="2">0.05 kbit/s</value>
+    <value_raw channel="Network In" channelid="2">6.3117</value_raw>
+    <value channel="Network Out" channelid="3">0.15 kbit/s</value>
+    <value_raw channel="Network Out" channelid="3">19.1231</value_raw>
+    <value channel="Read Ops" channelid="4">0 #/s</value>
+    <value_raw channel="Read Ops" channelid="4">0.0000</value_raw>
+    <value channel="Write Ops" channelid="5">0 #/s</value>
+    <value_raw channel="Write Ops" channelid="5">0.0000</value_raw>
+    <value channel="Disk Read" channelid="6">0 Mbit/s</value>
+    <value_raw channel="Disk Read" channelid="6">0.0000</value_raw>
+    <value channel="Disk Write" channelid="7">0 Mbit/s</value>
+    <value_raw channel="Disk Write" channelid="7">0.0000</value_raw>
+    <value channel="CPU Credit Usage" channelid="8">0.01 #</value>
+    <value_raw channel="CPU Credit Usage" channelid="8">0.0134</value_raw>
+    <value channel="CPU Credit Balance" channelid="9">576 #</value>
+    <value_raw channel="CPU Credit Balance" channelid="9">576.0000</value_raw>
+    <value channel="Status (Ok)" channelid="10">100 %</value>
+    <value_raw channel="Status (Ok)" channelid="10">4294968308</value_raw>
+    <value channel="Status (Instance) (Ok)" channelid="11">100 %</value>
+    <value_raw channel="Status (Instance) (Ok)" channelid="11">4294968308</value_raw>
+    <value channel="Status (System) (Ok)" channelid="12">100 %</value>
+    <value_raw channel="Status (System) (Ok)" channelid="12">4294968308</value_raw>
+    <value channel="Downtime" channelid="-4">0 %</value>
+    <value_raw channel="Downtime" channelid="-4">0.0000</value_raw>
+    <coverage>100 %</coverage>
+    <coverage_raw>0000010000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 6:00:00 AM - 7:00:00 AM</datetime>
+    <datetime_raw>43401.7500000000</datetime_raw>
+    <value channel="CPU Utilization" channelid="1">0.13 %</value>
+    <value_raw channel="CPU Utilization" channelid="1">0.1346</value_raw>
+    <value channel="Network In" channelid="2">0.07 kbit/s</value>
+    <value_raw channel="Network In" channelid="2">8.4017</value_raw>
+    <value channel="Network Out" channelid="3">0.15 kbit/s</value>
+    <value_raw channel="Network Out" channelid="3">18.2889</value_raw>
+    <value channel="Read Ops" channelid="4">0 #/s</value>
+    <value_raw channel="Read Ops" channelid="4">0.0000</value_raw>
+    <value channel="Write Ops" channelid="5">0 #/s</value>
+    <value_raw channel="Write Ops" channelid="5">0.0000</value_raw>
+    <value channel="Disk Read" channelid="6">0 Mbit/s</value>
+    <value_raw channel="Disk Read" channelid="6">0.0000</value_raw>
+    <value channel="Disk Write" channelid="7">0 Mbit/s</value>
+    <value_raw channel="Disk Write" channelid="7">0.0000</value_raw>
+    <value channel="CPU Credit Usage" channelid="8">0.01 #</value>
+    <value_raw channel="CPU Credit Usage" channelid="8">0.0135</value_raw>
+    <value channel="CPU Credit Balance" channelid="9">576 #</value>
+    <value_raw channel="CPU Credit Balance" channelid="9">576.0000</value_raw>
+    <value channel="Status (Ok)" channelid="10">100 %</value>
+    <value_raw channel="Status (Ok)" channelid="10">4294968308</value_raw>
+    <value channel="Status (Instance) (Ok)" channelid="11">100 %</value>
+    <value_raw channel="Status (Instance) (Ok)" channelid="11">4294968308</value_raw>
+    <value channel="Status (System) (Ok)" channelid="12">100 %</value>
+    <value_raw channel="Status (System) (Ok)" channelid="12">4294968308</value_raw>
+    <value channel="Downtime" channelid="-4">0 %</value>
+    <value_raw channel="Downtime" channelid="-4">0.0000</value_raw>
+    <coverage>100 %</coverage>
+    <coverage_raw>0000010000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 7:00:00 AM - 8:00:00 AM</datetime>
+    <datetime_raw>43401.7916666667</datetime_raw>
+    <value channel="CPU Utilization" channelid="1">0.13 %</value>
+    <value_raw channel="CPU Utilization" channelid="1">0.1347</value_raw>
+    <value channel="Network In" channelid="2">0.05 kbit/s</value>
+    <value_raw channel="Network In" channelid="2">6.4183</value_raw>
+    <value channel="Network Out" channelid="3">0.17 kbit/s</value>
+    <value_raw channel="Network Out" channelid="3">20.6722</value_raw>
+    <value channel="Read Ops" channelid="4">0 #/s</value>
+    <value_raw channel="Read Ops" channelid="4">0.0000</value_raw>
+    <value channel="Write Ops" channelid="5">0 #/s</value>
+    <value_raw channel="Write Ops" channelid="5">0.0000</value_raw>
+    <value channel="Disk Read" channelid="6">0 Mbit/s</value>
+    <value_raw channel="Disk Read" channelid="6">0.0000</value_raw>
+    <value channel="Disk Write" channelid="7">0 Mbit/s</value>
+    <value_raw channel="Disk Write" channelid="7">0.0000</value_raw>
+    <value channel="CPU Credit Usage" channelid="8">0.01 #</value>
+    <value_raw channel="CPU Credit Usage" channelid="8">0.0135</value_raw>
+    <value channel="CPU Credit Balance" channelid="9">576 #</value>
+    <value_raw channel="CPU Credit Balance" channelid="9">576.0000</value_raw>
+    <value channel="Status (Ok)" channelid="10">100 %</value>
+    <value_raw channel="Status (Ok)" channelid="10">4294968308</value_raw>
+    <value channel="Status (Instance) (Ok)" channelid="11">100 %</value>
+    <value_raw channel="Status (Instance) (Ok)" channelid="11">4294968308</value_raw>
+    <value channel="Status (System) (Ok)" channelid="12">100 %</value>
+    <value_raw channel="Status (System) (Ok)" channelid="12">4294968308</value_raw>
+    <value channel="Downtime" channelid="-4">0 %</value>
+    <value_raw channel="Downtime" channelid="-4">0.0000</value_raw>
+    <coverage>100 %</coverage>
+    <coverage_raw>0000010000</coverage_raw>
+   </item>
+   <item>
+    <datetime>10/29/2018 8:00:00 AM - 9:00:00 AM</datetime>
+    <datetime_raw>43401.8333333333</datetime_raw>
+    <value channel="CPU Utilization" channelid="1">0.32 %</value>
+    <value_raw channel="CPU Utilization" channelid="1">0.3152</value_raw>
+    <value channel="Network In" channelid="2">0.26 kbit/s</value>
+    <value_raw channel="Network In" channelid="2">32.2244</value_raw>
+    <value channel="Network Out" channelid="3">1.46 kbit/s</value>
+    <value_raw channel="Network Out" channelid="3">182.3792</value_raw>
+    <value channel="Read Ops" channelid="4">0 #/s</value>
+    <value_raw channel="Read Ops" channelid="4">0.0000</value_raw>
+    <value channel="Write Ops" channelid="5">0 #/s</value>
+    <value_raw channel="Write Ops" channelid="5">0.0000</value_raw>
+    <value channel="Disk Read" channelid="6">0 Mbit/s</value>
+    <value_raw channel="Disk Read" channelid="6">0.0000</value_raw>
+    <value channel="Disk Write" channelid="7">0 Mbit/s</value>
+    <value_raw channel="Disk Write" channelid="7">0.0000</value_raw>
+    <value channel="CPU Credit Usage" channelid="8">0.01 #</value>
+    <value_raw channel="CPU Credit Usage" channelid="8">0.0134</value_raw>
+    <value channel="CPU Credit Balance" channelid="9">576 #</value>
+    <value_raw channel="CPU Credit Balance" channelid="9">576.0000</value_raw>
+    <value channel="Status (Ok)" channelid="10">100 %</value>
+    <value_raw channel="Status (Ok)" channelid="10">4294968308</value_raw>
+    <value channel="Status (Instance) (Ok)" channelid="11">100 %</value>
+    <value_raw channel="Status (Instance) (Ok)" channelid="11">4294968308</value_raw>
+    <value channel="Status (System) (Ok)" channelid="12">100 %</value>
+    <value_raw channel="Status (System) (Ok)" channelid="12">4294968308</value_raw>
+    <value channel="Downtime" channelid="-4">0 %</value>
+    <value_raw channel="Downtime" channelid="-4">0.0000</value_raw>
+    <coverage>100 %</coverage>
+    <coverage_raw>0000010000</coverage_raw>
+   </item>
+  </histdata>

@@ -1,0 +1,166 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset1 col-md-offset-2">
+           
+    <div *ngIf="status=='new'" class="form-group">
+      <h1>Sign Up</h1>
+      
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm"  autocomplete="on">
+        <div class="form-group">
+          <label for="email">Email</label>
+
+          <div class="input-group">                
+          <input ngModel #email="ngModel" required email id="email" name="email" autocomplete='email' class="form-control">
+          </div> 
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <div class="input-group">
+          <input ngModel #password="ngModel" required password minlength="6" type="password" id="password" name="password" autocomplete='current-password' class="form-control">
+          </div>            
+          <div *ngIf="password.errors?.minlength">
+              Password must be at least 6 characters long.
+          </div> 
+        </div> 
+
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+
+          <div class="input-group">
+          <input required id="firstname" name="firstname" autocomplete='given-name' ngModel class="form-control">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+
+          <div class="input-group">            
+          <input required id="lastname" name="lastname" autocomplete='family-name' ngModel class="form-control">
+          </div>            
+        </div>
+
+        <div *ngIf="message" class="alert alert-danger" role="alert">
+            {{ message }}
+        </div> 
+
+        <div *ngIf="loading; else ready">
+            <button id="signup" [disabled]="true" class="btn btn-primary"             
+            type="submit"><i class="fa fa-refresh fa-spin"></i> Signing up...</button>
+        </div>       
+        <ng-template #ready>
+            <button id="signup" [disabled]="!f.valid" class="btn btn-primary"             
+            type="submit">Sign Up</button>
+        </ng-template>
+
+      </form>   
+      <div>
+        <a routerLink="/signin">Got a login already? Sign In here!</a>
+      </div>  
+      <div>
+        <a routerLink="/recover">Want to resend confirmation code?</a>
+      </div>  
+
+    </div> <!-- end of status new -->         
+
+    <div *ngIf="status=='confirm'" class="form-group">
+        <div class="jumbotron text-white rounded bg-success">
+          <h3>Almost there! One last step...</h3>
+          <p>Please check your e-mail and type in the code we have sent you below.</p>
+        </div>
+
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm"  autocomplete="on"> 
+            <div class="form-group">
+                <label for="code">Enter code here:</label>
+      
+                <div class="input-group">            
+                <input ngModel #code="ngModel" required pattern="[0-9][0-9][0-9][0-9][0-9][0-9]" id="code" name="code" autocomplete='code' class="form-control" maxlength="6" size="6">
+                </div>  
+                <div *ngIf="code.errors?.pattern">
+                    Code must be 6 digits
+                </div> 
+                         
+            </div>
+      
+            <div *ngIf="message" class="alert alert-danger" role="alert">
+                {{ message }}
+            </div> 
+
+            <div *ngIf="loading; else ready">
+                <button id="signup" [disabled]="true" class="btn btn-primary"             
+                type="submit"><i class="fa fa-refresh fa-spin"></i> Completing Sign up...</button>
+            </div>       
+            <ng-template #ready>
+                <button id="signup" [disabled]="!f.valid" class="btn btn-primary"             
+                type="submit">Complete Sign Up</button>
+            </ng-template>                   
+        </form> 
+        
+        <div>
+            <a routerLink="/recover">Didn't get the code? Resend it.</a>
+        </div>  
+        
+    </div> <!-- end of status new -->    
+  
+    <div *ngIf="status=='newpassword'" class="form-group">
+      <h1>Complete Sign up</h1>
+      <p>Please enter the following details for {{ signUpEmail }}</p>
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm"  autocomplete="on"> 
+
+        <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input required id="firstname" name="firstname" ngModel class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="lastname">Last Name</label>         
+          <input required id="lastname" name="lastname" ngModel class="form-control">
+        </div>          
+    
+        <div class="form-group">
+          <label for="password">New Password</label>
+          <input ngModel #password="ngModel" required password minlength="6" type="password" id="password" name="password" class="form-control">
+          <div *ngIf="password.errors?.minlength">
+              Password must be at least 6 characters long.
+          </div>   
+        </div>            
+
+        <div class="form-group">        
+          <label for="newpassword">Confirm Password</label>
+          <input ngModel #newpassword="ngModel" required password minlength="6" type="password" id="newpassword" name="newpassword" class="form-control">
+          <div *ngIf="newpassword.errors?.minlength">
+              Password must be at least 6 characters long.
+          </div>   
+        </div>            
+      
+        <div *ngIf="message" class="alert alert-danger" role="alert">
+          {{ message }}
+        </div>      
+          
+        <div *ngIf="loading; else ready">
+            <button id="signup" [disabled]="true" class="btn btn-primary"             
+            type="submit"><i class="fa fa-refresh fa-spin"></i> Signing up...</button>
+        </div>       
+        <ng-template #ready>
+            <button id="signup" [disabled]="!f.valid" class="btn btn-primary"             
+            type="submit">Sign Up</button>
+        </ng-template>
+
+
+      </form>        
+    </div> <!-- end of status newpassword -->    
+
+    <div *ngIf="status=='completed'" class="form-group">
+      <div class="jumbotron text-white rounded bg-success">
+            <h3>All done!</h3>
+            <p>Just <a routerLink="/signin">sign in</a> with your email and password</p>
+      </div> 
+
+    </div> <!-- end of status new -->    
+
+
+
+  </div>
+
+</div>
+

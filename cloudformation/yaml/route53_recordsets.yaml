@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  DomainName:
+    Type: String
+    Default: autoreporto.com    
+Resources:
+  RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties:
+      HostedZoneId: !ImportValue 'HostedZone::Id'        
+      RecordSets:
+      - Name: !Sub ${DomainName}
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2
+          DNSName: !ImportValue 'CloudFrontDistribution::DomainName'
+      - Name: !Sub www.${DomainName}
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2
+          DNSName: !ImportValue 'CloudFrontDistribution::DomainName'
+         

@@ -1,0 +1,144 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Set up Codepipeline for Email Sender
+
+Parameters:
+  PipelineName:
+    Default: EmailSenderLambdaDeployment   
+    Description: EmailSenderLambdaDeployment
+    Type: String
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "CodePipeline Settings"
+        Parameters:
+          - PipelineName
+
+Resources:
+  ArtifactStoreBucketEmailSender:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+  CodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties: 
+      Name: EmailSenderLambdaBuild  
+      Artifacts:
+        Type: CODEPIPELINE   
+      ServiceRole: !Ref 'PipelineRole'
+      Environment:
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: 'aws/codebuild/nodejs:8.11.0'
+        ImagePullCredentialsType: CODEBUILD
+        Type: LINUX_CONTAINER            
+      Source: 
+        Type: CODEPIPELINE
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Location: !Ref 'ArtifactStoreBucketEmailSender'
+        Type: S3
+      DisableInboundStageTransitions: []
+      Name: !Ref 'PipelineName'
+      RoleArn: !GetAtt [PipelineRole, Arn]
+      Stages:
+        - Name: AWSCodeCommit
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeCommit
+                Version: '1'
+              OutputArtifacts: 
+                - 
+                  Name: SourceOutput
+              Configuration:
+                RepositoryName: 'reporter-emailsender-lambda-service'
+                BranchName: 'master'
+              RunOrder: '1'
+        - Name: CodeBuild
+          Actions:
+            - 
+              Name: CodeBuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              InputArtifacts: 
+                - 
+                  Name: SourceOutput                  
+              Configuration:
+                ProjectName: 'EmailSenderLambdaBuild'
+              OutputArtifacts:
+                - Name: BuildOutput
+              RunOrder: '2'              
+  PipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: ["codepipeline.amazonaws.com","codebuild.amazonaws.com"]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CodePipelineAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                - 's3:*'
+                - 'cloudformation:CreateStack'
+                - 'cloudformation:DescribeStacks'
+                - 'cloudformation:DeleteStack'
+                - 'cloudformation:UpdateStack'
+                - 'cloudformation:CreateChangeSet'
+                - 'cloudformation:ExecuteChangeSet'
+                - 'cloudformation:DeleteChangeSet'
+                - 'cloudformation:DescribeChangeSet'
+                - 'cloudformation:SetStackPolicy'
+                - 'cloudformation:GetTemplateSummary'                
+                - 'iam:PassRole'
+                - 'iam:AttachGroupPolicy'
+                - 'iam:AttachUserPolicy'
+                - 'iam:AttachRolePolicy' 
+                - 'iam:DetachRolePolicy'               
+                - 'iam:CreatePolicy'
+                - 'iam:ListAttachedGroupPolicies'
+                - 'iam:ListAttachedUserPolicies'
+                - 'iam:ListGroups'
+                - 'iam:ListPolicies'
+                - 'iam:ListUsers'
+                - 'iam:CreateRole'
+                - 'iam:GetRole'
+                - 'iam:DeleteRole'
+                - 'codecommit:GitPull'
+                - 'codecommit:GetBranch'
+                - 'codecommit:GetCommit'
+                - 'codecommit:UploadArchive'
+                - 'codecommit:GetUploadArchiveStatus'
+                - 'codebuild:StartBuild'
+                - 'codebuild:BatchGetBuilds'
+                - 'logs:CreateLogStream'
+                - 'logs:CreateLogGroup'
+                - 'logs:PutLogEvents'
+                - 'lambda:CreateFunction'
+                - 'lambda:UpdateFunctionCode'                   
+                - 'lambda:GetFunctionConfiguration'
+                - 'lambda:DeleteFunction'
+                - 'lambda:AddPermission'
+                - 'lambda:RemovePermission'
+                - 'apigateway:GET'
+                - 'apigateway:POST'
+                - 'apigateway:DELETE'
+                - 'apigateway:PATCH'
+                Effect: Allow
+                Resource: '*'
