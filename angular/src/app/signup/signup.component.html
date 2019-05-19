@@ -2,9 +2,24 @@
   <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset1 col-md-offset-2">
            
     <div *ngIf="status=='new'" class="form-group">
-      <h1>Sign Up</h1>
-      
+
       <form (ngSubmit)="onSubmit(f)" #f="ngForm"  autocomplete="on">
+
+        <h1>Check Licence</h1>
+    
+        <div class="form-group">
+          <label for="licence">Licence (use "check" for check)</label>
+
+          <div class="input-group">                
+          <input ngModel #licence="ngModel" required string id="licence" name="licence" autocomplete='licence' class="form-control">
+          </div> 
+        </div>
+
+        <button id="check" class="btn btn-primary"             
+        type="submit">Check Licence</button>
+
+        <h1>Sign Up</h1>
+
         <div class="form-group">
           <label for="email">Email</label>
 

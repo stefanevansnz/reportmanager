@@ -39,6 +39,18 @@ var reportService = require('./report-service');
 exports.lambdaHandler = async (event, context, callback) => {
     var response = null;
 
+    // set user session id
+    /*
+    let authorizer = event.requestContext.authorizer;
+    let userSessionId = null;
+    if (authorizer.claims != null) {
+        console.log('found authorizer.claims');
+        userSessionId = authorizer.claims.sub;
+    }     
+    console.log('userSessionId is ' + userSessionId);          
+    eventHolder.userSessionId = userSessionId;
+*/
+
     try {
         console.log('event is' + JSON.stringify(event));
 

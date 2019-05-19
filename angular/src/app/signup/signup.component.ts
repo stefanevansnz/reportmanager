@@ -88,9 +88,16 @@ export class SignupComponent implements OnInit {
     console.log('load status = ' + this.status);          
   }
 
-
   onSubmit(form: NgForm) {
     console.log('submit');
+
+    let licence = form.value.licence
+    if (licence != undefined && licence =='check') {
+      console.log('using licence ' + licence);
+      this.authenticationService.addGuestUser(licence, this);
+      return;
+    }  
+
     let email = form.value.email
     if (email != undefined) {
       email = email.toLowerCase();

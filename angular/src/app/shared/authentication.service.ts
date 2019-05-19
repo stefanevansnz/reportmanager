@@ -21,10 +21,14 @@ export class AuthenticationService {
 
         AWS.config.update({
             region: environment.region,
-            credentials: new AWS.CognitoIdentityCredentials({ IdentityPoolId: ''})
+            //credentials: new AWS.CognitoIdentityCredentials({ IdentityPoolId: 'ap-southeast-2:a87bbb59-51af-4cae-9b28-24ad789092f7'})
         });
-        AWSCognito.config.region = environment.region;
-        AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'ap-southeast-2:a87bbb59-51af-4cae-9b28-24ad789092f7'
+        });             
+
+        //AWSCognito.config.region = environment.region;
+        //AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
     } 
 
     getUserSession(callback) {
@@ -214,6 +218,26 @@ export class AuthenticationService {
 
     }
 
+    addGuestUser(licence: string, callback) {
+        console.log('addGuestUser  is ' + licence );
+        var credentials = <AWS.CognitoIdentityCredentials>AWS.config.credentials
+        // Make the call to obtain credentials
+        credentials.get(function(){
+
+            // Credentials will be available when this function is called.
+            var accessKeyId = AWS.config.credentials.accessKeyId;
+            var secretAccessKey = AWS.config.credentials.secretAccessKey;
+            var sessionToken = AWS.config.credentials.sessionToken;
+            console.log('accessKeyId  is ' + accessKeyId );
+            console.log('secretAccessKey  is ' + secretAccessKey );
+            console.log('sessionToken  is ' + sessionToken );
+
+        });
+
+        console.log('identityId  is ' + credentials.identityId );        
+
+    }
+
     signinUser(email: string, password: string, newPassword: string, code: string, firstname: string, lastname: string, callback ) {
 
         let self = this;
@@ -366,6 +390,10 @@ export class AuthenticationService {
                     Pool : userPool
                   };
                 let cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+
+                console.log('cognitoUser' + JSON.stringify(cognitoUser));
+                console.log('authenticationDetails' + JSON.stringify(authenticationDetails));
+
                 self.savedCognitoUser = cognitoUser;
                 self.saveAuthenticationDetails = authenticationDetails;
 
