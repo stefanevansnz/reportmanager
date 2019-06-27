@@ -49,7 +49,7 @@ Resources:
       ServiceRole: !Ref 'PipelineRole'
       Environment:
         ComputeType: BUILD_GENERAL1_MEDIUM
-        Image: 'aws/codebuild/nodejs:8.11.0'
+        Image: 'aws/codebuild/dot-net:core-2.1'
         ImagePullCredentialsType: CODEBUILD
         Type: LINUX_CONTAINER            
       Source: 

@@ -2,6 +2,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - cd services/reports/prtg
       - dotnet publish -c Release
       - aws cloudformation package --template-file template.yaml --s3-bucket reporterbotdeploymentbucket --output-template-file template-sam-prtg.yaml
       - aws cloudformation deploy --template-file template-sam-prtg.yaml --stack-name prtg-service --capabilities CAPABILITY_IAM
