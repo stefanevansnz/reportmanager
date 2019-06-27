@@ -1,7 +1,8 @@
 # ignore
 .vscode
 angular/node_modules/*
-
+**/obj
+**/bin
 # Test
 TEST.md
 

@@ -71,6 +71,7 @@ namespace PRTG
 
             var stream = await response.Content.ReadAsStreamAsync();
 
+
             return stream;
         }
 

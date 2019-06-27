@@ -1,15 +1,16 @@
 
-# prtg
+### SAM API to build html for PRTG report
 
-This is a sample template for htmlbuilder
-
-TO INSTALL:
+## TO BUILD:
+cd services/reports/prtg/
 dotnet publish -c Release
 
-TO RUN:
+## TO RUN:
+cd services/reports/prtg/
+Start Docker
 sam local start-api --skip-pull-image --profile reporter
 
-TO TEST LOCAL:
+## TO TEST LOCAL:
 http://127.0.0.1:3000/prtg?title=Report%20for%20Production%20[EC2]%20-%20PRTG%20Network%20Monitor&subtitle=Amazon%20CloudWatch%20EC2%20BETA%20(15%20m%20Interval)&host=monitoring%2Econsegna%2Ecloud&id=4196&sdate=2019-01-01-00-00-00&edate=2019-02-01-00-00-00&username=stefan%2Eevans%2Bodm%40consegna%2Ecloud&passhash=
 
 TO TEST PROD:
