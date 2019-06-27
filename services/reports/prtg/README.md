@@ -25,6 +25,8 @@ export PIPELINE_NAME=prtg-pipeline
 cfn-create-or-update --profile reporter --region ap-southeast-2 --template-body file://codepipeline/codepipeline.yml --stack-name $PIPELINE_NAME --capabilities CAPABILITY_IAM --parameters ParameterKey=PipelineName,ParameterValue=$PIPELINE_NAME ParameterKey=GitHubOAuthToken,ParameterValue=$YOUR_GITHUB_TOKEN
 
 
+
+
 ## NOTES
 
 * XRay
