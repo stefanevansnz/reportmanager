@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: Set up Codepipeline
+
+Parameters:
+  PipelineName:
+    Description: PipelineName
+    Type: String
+  # *** The owner of the Github repo for this application.
+  GitHubOwner:
+    Type: String
+    Default: stefanevansnz
+    AllowedPattern: "[A-Za-z0-9-]+"
+  GitHubRepo:
+    Type: String
+    Default: reportmanager
+    AllowedPattern: "[A-Za-z0-9-]+"
+  GitHubBranch:
+    Type: String
+    Default: master
+    AllowedPattern: "[A-Za-z0-9-]+"    
+  GitHubOAuthToken:
+    Type: String
+    NoEcho: true
+    MinLength: 40
+    MaxLength: 40
+    AllowedPattern: '[a-z0-9]*'    
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "CodePipeline Settings"
+        Parameters:
+          - PipelineName
+
+Resources:
+  ArtifactStoreBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+  CodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties: 
+      Name: !Ref 'PipelineName'
+      Artifacts:
+        Type: CODEPIPELINE   
+      ServiceRole: !Ref 'PipelineRole'
+      Environment:
+        ComputeType: BUILD_GENERAL1_MEDIUM
+        Image: 'aws/codebuild/nodejs:8.11.0'
+        ImagePullCredentialsType: CODEBUILD
+        Type: LINUX_CONTAINER            
+      Source: 
+        Type: CODEPIPELINE
+        BuildSpec: 'services/reports/prtg/buildspec.yml'
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Location: !Ref 'ArtifactStoreBucket'
+        Type: S3
+      DisableInboundStageTransitions: []
+      Name: !Ref 'PipelineName'
+      RoleArn: !GetAtt [PipelineRole, Arn]
+      Stages:
+        - Name: GitHub
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Provider: GitHub
+                Version: '1'
+              OutputArtifacts: 
+                - 
+                  Name: SourceOutput
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                PollForSourceChanges: false
+                OAuthToken: !Ref GitHubOAuthToken                
+              RunOrder: '1'
+        - Name: CodeBuild
+          Actions:
+            - 
+              Name: CodeBuild
+              ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: '1'
+              InputArtifacts: 
+                - 
+                  Name: SourceOutput                  
+              Configuration:
+                ProjectName: !Ref 'PipelineName'
+              OutputArtifacts:
+                - Name: BuildOutput
+              RunOrder: '2'              
+  PipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: ['sts:AssumeRole']
+          Effect: Allow
+          Principal:
+            Service: ["codepipeline.amazonaws.com","codebuild.amazonaws.com"]
+        Version: '2012-10-17'
+      Path: /
+      Policies:
+        - PolicyName: CodePipelineAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+                Action: '*'
+                Effect: Allow
+                Resource: '*'
