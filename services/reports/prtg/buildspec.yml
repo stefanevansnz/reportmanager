@@ -8,10 +8,11 @@ phases:
       - aws cloudformation deploy --template-file template-sam-prtg.yaml --stack-name prtg-service --capabilities CAPABILITY_IAM
       - aws cloudformation describe-stacks --stack-name prtg-service --query 'Stacks[].Outputs'
       - echo $CODEBUILD_SRC_DIR
+      - ls -ltr $CODEBUILD_SRC_DIR
 artifacts:
   type: zip
   files:
-    - src/services/reports/prtg/src/PRTG/bin/Release/netcoreapp2.1/publish/*
+    - services/reports/prtg/src/PRTG/bin/Release/netcoreapp2.1/publish/*
     - template.yaml
     - outputSamTemplate.yaml
 # https://aws.amazon.com/blogs/compute/developing-net-core-aws-lambda-functions/
