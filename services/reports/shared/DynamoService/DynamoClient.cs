@@ -21,7 +21,7 @@ namespace DynamoService
 
 
 
-        private async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
+        public async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
         {
             IDictionary<string, string> requestParams = new Dictionary<string, string>();
  

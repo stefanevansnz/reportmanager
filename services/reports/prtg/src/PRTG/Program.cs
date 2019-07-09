@@ -13,10 +13,12 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 
 using System.Xml.Linq;
-using PRTGService.Service;
 using System.IO;
 
 using Amazon.XRay.Recorder.Core;
+
+using PRTGService.Service;
+using DynamoService;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -27,9 +29,11 @@ namespace PRTG
     public class Function
     {
 
-        private static string tableName = "reporterbot-sam-build-ReportTable-6AWRKNVHJGSG";
+        //private static string tableName = "reporterbot-sam-build-ReportTable-6AWRKNVHJGSG";
 
-        private static AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient();
+        //private static AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient();
+
+        private static DynamoClient dynamoClient = new DynamoClient();
 
         private static readonly HttpClient httpClient = new HttpClient();
 
@@ -81,6 +85,7 @@ namespace PRTG
             return stream;
         }
 
+/*
         private async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
         {
             IDictionary<string, string> requestParams = new Dictionary<string, string>();
@@ -106,9 +111,9 @@ namespace PRTG
             string id = document["id"].AsString();
             Console.WriteLine("Found id which is " + id);
         }        
+ */
 
-
-        public async Task<APIGatewayProxyResponse> FunctionHandlerAsync(APIGatewayProxyRequest request, ILambdaContext context)
+        public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             try {
                 //var queryStrings = apigProxyEvent.QueryStringParameters["sdate"];
@@ -125,8 +130,8 @@ namespace PRTG
                 requestParams["username"] = Uri.EscapeDataString(requestParams["username"]);
 
                 // get parameters from dynamodb
-                await GetItemFromDynamoDB();
-
+                //await GetItemFromDynamoDB();
+                await dynamoClient.GetItemFromDynamoDB();
 
                 // load xml into XElement
                 XElement dataFromPRTG = 
