@@ -30,7 +30,7 @@ namespace PRTG.Tests
     }
 
     //[Fact]
-    public void TestPRTGFunctionHandler()
+    public async Task TestPRTGFunctionHandlerAsync()
     {
             TestLambdaContext context;
             APIGatewayProxyRequest request;
@@ -58,7 +58,7 @@ namespace PRTG.Tests
             request.QueryStringParameters.Add("edate", "2018-11-29-00-00-00");
 
             var function = new Function();
-            response = function.FunctionHandler(request, context);
+            response = await function.FunctionHandler(request, context);
 
             Console.WriteLine("Lambda Response: \n" + response.Body);
             Console.WriteLine("Expected Response: \n" + ExpectedResponse.Body);

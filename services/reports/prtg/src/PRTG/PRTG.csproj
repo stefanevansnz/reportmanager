@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amazon.DynamoDb" Version="0.13.1" />
     <PackageReference Include="Amazon.Lambda.Core" Version="1.0.0" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="1.0.2" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.1.0" />
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\shared\DynamoService\dynamodb.csproj" />
     <ProjectReference Include="..\PRTGService\PRTGService.csproj" />
   </ItemGroup>
 </Project>

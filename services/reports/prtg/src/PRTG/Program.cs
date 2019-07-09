@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
-using System.Net.Http.Headers;
 
 using Newtonsoft.Json;
 
 using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
+
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
+
 using System.Xml.Linq;
 using PRTGService.Service;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 using Amazon.XRay.Recorder.Core;
 
@@ -25,7 +27,11 @@ namespace PRTG
     public class Function
     {
 
-        private static readonly HttpClient client = new HttpClient();
+        private static string tableName = "reporterbot-sam-build-ReportTable-6AWRKNVHJGSG";
+
+        private static AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient();
+
+        private static readonly HttpClient httpClient = new HttpClient();
 
 
         private T TraceFunction<T>(Func<T> func, string subSegmentName)
@@ -39,10 +45,10 @@ namespace PRTG
 
         private static async Task<string> GetCallingIP()
         {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Add("User-Agent", "AWS Lambda .Net Client");
+            httpClient.DefaultRequestHeaders.Accept.Clear();
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "AWS Lambda .Net Client");
 
-            var stringTask = client.GetStringAsync("http://checkip.amazonaws.com/").ConfigureAwait(continueOnCapturedContext:false);
+            var stringTask = httpClient.GetStringAsync("http://checkip.amazonaws.com/").ConfigureAwait(continueOnCapturedContext:false);
 
             var msg = await stringTask;
             return msg.Replace("\n","");
@@ -61,7 +67,7 @@ namespace PRTG
             Console.WriteLine(serviceUri);
 
             //var client = new HttpClient();
-            var response = await client.GetAsync(serviceUri);
+            var response = await httpClient.GetAsync(serviceUri);
 
             if (!response.IsSuccessStatusCode) {
                 throw new Exception("Service Request not successful " + response.StatusCode);
@@ -75,8 +81,34 @@ namespace PRTG
             return stream;
         }
 
+        private async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
+        {
+            IDictionary<string, string> requestParams = new Dictionary<string, string>();
+ 
+            Table reports = Table.LoadTable(dynamoDBClient, tableName);
+            await RetrieveItem(reports);
 
-        public APIGatewayProxyResponse FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
+            return requestParams;
+
+        }
+
+        private async static Task RetrieveItem(Table reportsTable)
+        {
+            Table reports = Table.LoadTable(dynamoDBClient, tableName);
+            Console.WriteLine("Executing RetrieveItem()");
+            // Optional configuration.
+            GetItemOperationConfig config = new GetItemOperationConfig
+            {
+                AttributesToGet = new List<string> { "userid", "id" },
+                ConsistentRead = true
+            };
+            Document document = await reportsTable.GetItemAsync("111", config);
+            string id = document["id"].AsString();
+            Console.WriteLine("Found id which is " + id);
+        }        
+
+
+        public async Task<APIGatewayProxyResponse> FunctionHandlerAsync(APIGatewayProxyRequest request, ILambdaContext context)
         {
             try {
                 //var queryStrings = apigProxyEvent.QueryStringParameters["sdate"];
@@ -91,6 +123,10 @@ namespace PRTG
                     }
                 }
                 requestParams["username"] = Uri.EscapeDataString(requestParams["username"]);
+
+                // get parameters from dynamodb
+                await GetItemFromDynamoDB();
+
 
                 // load xml into XElement
                 XElement dataFromPRTG = 
