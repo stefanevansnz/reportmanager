@@ -10,40 +10,33 @@ namespace DynamoService
 {
     public class DynamoClient
     {
-
-
         private static string tableName = "reporterbot-sam-build-ReportTable-6AWRKNVHJGSG";
 
         private static AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient();
 
-
-
-
-
-
-        public async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
+        public async Task<IDictionary<string, string>> RetrieveReport(string hashKey, string rangeKey)
         {
-            IDictionary<string, string> requestParams = new Dictionary<string, string>();
- 
-            Table reports = Table.LoadTable(dynamoDBClient, tableName);
-            await RetrieveItem(reports);
 
-            return requestParams;
-        }
+            Table reportsTable = Table.LoadTable(dynamoDBClient, tableName);
 
-        private async static Task RetrieveItem(Table reportsTable)
-        {
-            Table reports = Table.LoadTable(dynamoDBClient, tableName);
+            //string hashKey = "111";
+            //string rangeKey = "2";
+            Console.WriteLine("hashKey is " + hashKey);
+            Console.WriteLine("rangeKey is " + rangeKey);
+
             Console.WriteLine("Executing RetrieveItem()");
             // Optional configuration.
             GetItemOperationConfig config = new GetItemOperationConfig
             {
-                AttributesToGet = new List<string> { "userid", "id" },
+                AttributesToGet = new List<string> { "userid", "id" , "title"},
                 ConsistentRead = true
             };
-            Document document = await reportsTable.GetItemAsync("111", config);
-            string id = document["id"].AsString();
-            Console.WriteLine("Found id which is " + id);
+            Document document = await reportsTable.GetItemAsync(hashKey, rangeKey, config);
+            IDictionary<string, string> result = new Dictionary<string, string>();
+            result["id"] = document["id"].AsString();
+            result["title"] = document["title"].AsString();            
+            Console.WriteLine("Found id which is " + result["id"] + " and title is " + result["title"]);
+            return result;            
         }        
 
     }

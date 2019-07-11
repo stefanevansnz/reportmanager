@@ -9,9 +9,6 @@ using Newtonsoft.Json;
 using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
 
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
-
 using System.Xml.Linq;
 using System.IO;
 
@@ -29,10 +26,6 @@ namespace PRTG
     public class Function
     {
 
-        //private static string tableName = "reporterbot-sam-build-ReportTable-6AWRKNVHJGSG";
-
-        //private static AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient();
-
         private static DynamoClient dynamoClient = new DynamoClient();
 
         private static readonly HttpClient httpClient = new HttpClient();
@@ -46,17 +39,6 @@ namespace PRTG
 
             return result;
         } 
-
-        private static async Task<string> GetCallingIP()
-        {
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "AWS Lambda .Net Client");
-
-            var stringTask = httpClient.GetStringAsync("http://checkip.amazonaws.com/").ConfigureAwait(continueOnCapturedContext:false);
-
-            var msg = await stringTask;
-            return msg.Replace("\n","");
-        }
 
         private static async Task<Stream> GetPRTGSummary(IDictionary<string, string> requestParams) {
 
@@ -85,34 +67,6 @@ namespace PRTG
             return stream;
         }
 
-/*
-        private async Task<IDictionary<string, string>> GetItemFromDynamoDB() 
-        {
-            IDictionary<string, string> requestParams = new Dictionary<string, string>();
- 
-            Table reports = Table.LoadTable(dynamoDBClient, tableName);
-            await RetrieveItem(reports);
-
-            return requestParams;
-
-        }
-
-        private async static Task RetrieveItem(Table reportsTable)
-        {
-            Table reports = Table.LoadTable(dynamoDBClient, tableName);
-            Console.WriteLine("Executing RetrieveItem()");
-            // Optional configuration.
-            GetItemOperationConfig config = new GetItemOperationConfig
-            {
-                AttributesToGet = new List<string> { "userid", "id" },
-                ConsistentRead = true
-            };
-            Document document = await reportsTable.GetItemAsync("111", config);
-            string id = document["id"].AsString();
-            Console.WriteLine("Found id which is " + id);
-        }        
- */
-
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             try {
@@ -131,7 +85,8 @@ namespace PRTG
 
                 // get parameters from dynamodb
                 //await GetItemFromDynamoDB();
-                await dynamoClient.GetItemFromDynamoDB();
+                IDictionary<string, string> reportParams = await dynamoClient.RetrieveReport("111", "2");
+                Console.WriteLine("reportParams is " + reportParams["id"] + " and title is " + reportParams["title"]);
 
                 // load xml into XElement
                 XElement dataFromPRTG = 
