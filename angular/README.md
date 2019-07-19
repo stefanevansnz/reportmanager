@@ -10,7 +10,11 @@ npm install --save uuid
 npm install npm
 
 2) Run locally
-./run_serverless.sh
+cd angular
+./run_angular.sh
+
+3) Test:
+http://localhost:4200/
 
 ## Set up and test a local angular front end
 

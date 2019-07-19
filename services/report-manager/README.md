@@ -1,16 +1,25 @@
-Backend
+Report Manager Backend
 
 TO INSTALL:
-cd reporterbot
+cd services/report-manager/
 npm install
 
 TO RUN:
 sam local start-api --skip-pull-image --profile reporter
 
-TO TEST:
-curl -X PUT -H 'Content-Type: application/json' -d '{"title": "Report Test"}' http://localhost:3000/report
-
+TO TEST (login using Angular):
 http://localhost:3000/report
+{
+message: "Missing Authentication Token"
+}
+
+TO SET UP CODE PIPELINE:
+# Use the following to get github token https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line
+# i.e. Use https://github.com/settings/tokens
+export YOUR_GITHUB_TOKEN=
+export PIPELINE_NAME=report-manager-pipeline
+cfn-create-or-update --profile reporter --region ap-southeast-2 --template-body file://code_pipeline/codepipeline.yml --stack-name $PIPELINE_NAME --capabilities CAPABILITY_IAM --parameters ParameterKey=PipelineName,ParameterValue=$PIPELINE_NAME ParameterKey=GitHubOAuthToken,ParameterValue=$YOUR_GITHUB_TOKEN
+
 
 PRODUCTION:
 curl -X PUT -H 'Content-Type: application/json' -d '{"id": "222", "title": "Report Test2"}' https://prg9r0aujh.execute-api.ap-southeast-2.amazonaws.com/Prod/report

@@ -1,12 +1,30 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
-Description: Set up Codepipeline for Reporter Bot
+Description: Set up Codepipeline
 
 Parameters:
   PipelineName:
-    Default: ReporterBotLambdaDeployment   
-    Description: ReporterBotLambdaDeployment
+    Description: PipelineName
     Type: String
+  # *** The owner of the Github repo for this application.
+  GitHubOwner:
+    Type: String
+    Default: stefanevansnz
+    AllowedPattern: "[A-Za-z0-9-]+"
+  GitHubRepo:
+    Type: String
+    Default: reportmanager
+    AllowedPattern: "[A-Za-z0-9-]+"
+  GitHubBranch:
+    Type: String
+    Default: master
+    AllowedPattern: "[A-Za-z0-9-]+"    
+  GitHubOAuthToken:
+    Type: String
+    NoEcho: true
+    MinLength: 40
+    MaxLength: 40
+    AllowedPattern: '[a-z0-9]*'    
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -17,7 +35,7 @@ Metadata:
           - PipelineName
 
 Resources:
-  ArtifactStoreBucketReporterBot:
+  ArtifactStoreBucket:
     Type: AWS::S3::Bucket
     Properties:
       VersioningConfiguration:
@@ -25,7 +43,7 @@ Resources:
   CodeBuild:
     Type: AWS::CodeBuild::Project
     Properties: 
-      Name: ReporterBotLambdaBuild  
+      Name: !Ref 'PipelineName'
       Artifacts:
         Type: CODEPIPELINE   
       ServiceRole: !Ref 'PipelineRole'
@@ -36,30 +54,34 @@ Resources:
         Type: LINUX_CONTAINER            
       Source: 
         Type: CODEPIPELINE
+        BuildSpec: 'services/report-manager/buildspec.yml'
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       ArtifactStore:
-        Location: !Ref 'ArtifactStoreBucketReporterBot'
+        Location: !Ref 'ArtifactStoreBucket'
         Type: S3
       DisableInboundStageTransitions: []
       Name: !Ref 'PipelineName'
       RoleArn: !GetAtt [PipelineRole, Arn]
       Stages:
-        - Name: AWSCodeCommit
+        - Name: GitHub
           Actions:
             - Name: Source
               ActionTypeId:
                 Category: Source
-                Owner: AWS
-                Provider: CodeCommit
+                Owner: ThirdParty
+                Provider: GitHub
                 Version: '1'
               OutputArtifacts: 
                 - 
                   Name: SourceOutput
               Configuration:
-                RepositoryName: 'reporter-ReporterBot-lambda-service'
-                BranchName: 'master'
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                PollForSourceChanges: false
+                OAuthToken: !Ref GitHubOAuthToken                
               RunOrder: '1'
         - Name: CodeBuild
           Actions:
@@ -74,7 +96,7 @@ Resources:
                 - 
                   Name: SourceOutput                  
               Configuration:
-                ProjectName: 'ReporterBotLambdaBuild'
+                ProjectName: !Ref 'PipelineName'
               OutputArtifacts:
                 - Name: BuildOutput
               RunOrder: '2'              
@@ -94,57 +116,6 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Action:
-                - 's3:*'
-                - 'cloudformation:CreateStack'
-                - 'cloudformation:DescribeStacks'
-                - 'cloudformation:DeleteStack'
-                - 'cloudformation:UpdateStack'
-                - 'cloudformation:CreateChangeSet'
-                - 'cloudformation:ExecuteChangeSet'
-                - 'cloudformation:DeleteChangeSet'
-                - 'cloudformation:DescribeChangeSet'
-                - 'cloudformation:SetStackPolicy'
-                - 'cloudformation:GetTemplateSummary'                
-                - 'iam:PassRole'
-                - 'iam:AttachGroupPolicy'
-                - 'iam:AttachUserPolicy'
-                - 'iam:AttachRolePolicy' 
-                - 'iam:DetachRolePolicy'               
-                - 'iam:CreatePolicy'
-                - 'iam:ListAttachedGroupPolicies'
-                - 'iam:ListAttachedUserPolicies'
-                - 'iam:ListGroups'
-                - 'iam:ListPolicies'
-                - 'iam:ListUsers'
-                - 'iam:CreateRole'
-                - 'iam:GetRole'
-                - 'iam:DeleteRole'
-                - 'iam:PutRolePolicy'
-                - 'iam:DeleteRolePolicy'
-                - 'codecommit:GitPull'
-                - 'codecommit:GetBranch'
-                - 'codecommit:GetCommit'
-                - 'codecommit:UploadArchive'
-                - 'codecommit:GetUploadArchiveStatus'
-                - 'codebuild:StartBuild'
-                - 'codebuild:BatchGetBuilds'
-                - 'logs:CreateLogStream'
-                - 'logs:CreateLogGroup'
-                - 'logs:PutLogEvents'
-                - 'lambda:CreateFunction'
-                - 'lambda:UpdateFunctionCode'                   
-                - 'lambda:GetFunctionConfiguration'
-                - 'lambda:GetFunction'
-                - 'lambda:DeleteFunction'
-                - 'lambda:AddPermission'
-                - 'lambda:RemovePermission'                
-                - 'apigateway:GET'
-                - 'apigateway:POST'
-                - 'apigateway:DELETE'
-                - 'apigateway:PATCH'
-                - 'dynamodb:CreateTable'
-                - 'dynamodb:DescribeTable'
-                - 'dynamodb:DeleteTable'                
+                Action: '*'
                 Effect: Allow
                 Resource: '*'

@@ -63,6 +63,7 @@ Resources:
     ReportTable:
         Type: AWS::DynamoDB::Table
         Properties: 
+            TableName: 'ReportsTable'
             AttributeDefinitions: 
                 - 
                     AttributeName: userid

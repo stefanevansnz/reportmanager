@@ -1,6 +1,7 @@
 # ignore
 .vscode
 angular/node_modules/*
+services/report-manager/node_modules/*
 **/obj
 **/bin
 # Test
