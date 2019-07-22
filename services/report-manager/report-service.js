@@ -7,8 +7,7 @@ const dynamo = new AWS.DynamoDB.DocumentClient({
     region: 'ap-southeast-2',
     endpoint: 'dynamodb.ap-southeast-2.amazonaws.com'
   });
-//const TABLE_NAME = 'ReportTable';
-const TABLE_NAME = 'reporterbot-sam-build-ReportTable-20BIVOGHZRLK';
+const TABLE_NAME = 'ReportsTable';
 
 const response = require('./response-maker');
 
@@ -27,12 +26,14 @@ exports.post = async (event) => {
     object.timestamp = new Date().toISOString();
 
     // set user session id
-    //var authorizer = event.requestContext.authorizer;
-    //if (authorizer.claims != null) {
-        //console.log('found authorizer.claims');
+    var authorizer = event.requestContext.authorizer;
+    if (authorizer != null) {
+        console.log('found authorizer.claims');
         //body.userid = authorizer.claims.sub;
-    //}
-    object.userid = '123';    
+        object.userid = authorizer.claims.sub;
+    } else {
+        object.userid = null; 
+    }
     console.log('create TABLE_NAME is ' + TABLE_NAME + ' object is ' + JSON.stringify(object));   
             
 

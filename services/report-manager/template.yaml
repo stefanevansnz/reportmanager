@@ -5,7 +5,6 @@ Description: >
     
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
-
     Function:
         Timeout: 900
         Tracing: Active      
@@ -20,8 +19,23 @@ Globals:
             AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
             AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
             AllowOrigin: "'*'"
-
+Parameters:
+    CognitoUserPoolName:
+        Type: String
+        Default: ReporterUserPool
+    CognitoUserPoolClientName:
+        Type: String
+        Default: ReporterPoolClient    
 Resources:
+    ReporterBotApi:
+        Type: AWS::Serverless::Api
+        Properties:
+            StageName: prod
+            Auth:
+                DefaultAuthorizer: ReporterAuthorizer
+                Authorizers:
+                ReporterAuthorizer:
+                    UserPoolArn: !GetAtt ReporterCognitoUserPool.Arn
     ReporterBotFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
         Properties:
@@ -81,6 +95,27 @@ Resources:
             ProvisionedThroughput: 
                 ReadCapacityUnits: 1
                 WriteCapacityUnits: 1
+    ReporterCognitoUserPool:
+        Type: AWS::Cognito::UserPool
+        Properties:
+          UserPoolName: !Ref CognitoUserPoolName
+          Policies:
+              PasswordPolicy:
+                  MinimumLength: 6
+          UsernameAttributes:
+            - email
+          AutoVerifiedAttributes:
+            - email
+          Schema:
+            - AttributeDataType: String
+              Name: email
+              Required: true
+  ReporterCognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+          UserPoolId: !Ref ReporterCognitoUserPool
+          ClientName: !Ref CognitoUserPoolClientName
+          GenerateSecret: false                
 
 Outputs:
 

@@ -5,6 +5,7 @@ cd services/report-manager/
 npm install
 
 TO RUN:
+cd services/report-manager/
 sam local start-api --skip-pull-image --profile reporter
 
 TO TEST (login using Angular):
@@ -19,7 +20,7 @@ TO SET UP CODE PIPELINE:
 export YOUR_GITHUB_TOKEN=
 export PIPELINE_NAME=report-manager-pipeline
 cfn-create-or-update --profile reporter --region ap-southeast-2 --template-body file://code_pipeline/codepipeline.yml --stack-name $PIPELINE_NAME --capabilities CAPABILITY_IAM --parameters ParameterKey=PipelineName,ParameterValue=$PIPELINE_NAME ParameterKey=GitHubOAuthToken,ParameterValue=$YOUR_GITHUB_TOKEN
-
+CONNECT CODE PIPELINE TO GITHUB 
 
 PRODUCTION:
 curl -X PUT -H 'Content-Type: application/json' -d '{"id": "222", "title": "Report Test2"}' https://prg9r0aujh.execute-api.ap-southeast-2.amazonaws.com/Prod/report
