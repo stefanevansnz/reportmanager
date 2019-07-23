@@ -7,8 +7,10 @@ phases:
       - aws cloudformation package --template-file template.yaml --s3-bucket reporterbotdeploymentbucket --output-template-file template-sam-reporterbot.yaml
       - aws cloudformation deploy --template-file template-sam-reporterbot.yaml --stack-name reporterbot-sam-build --capabilities CAPABILITY_IAM
       - aws cloudformation describe-stacks --stack-name reporterbot-sam-build --query 'Stacks[].Outputs'
+      - echo $CODEBUILD_SRC_DIR
+      - ls -ltr $CODEBUILD_SRC_DIR
 artifacts:
   type: zip
   files:
     - template.yaml
-    - template-sam-reporterbot.yaml
+    - outputSamTemplate.yaml
