@@ -27,15 +27,20 @@ Parameters:
         Type: String
         Default: ReporterPoolClient    
 Resources:
-    ReporterBotApi:
+    ApiGatewayApi:
         Type: AWS::Serverless::Api
         Properties:
             StageName: prod
+            Cors: "'*'"
             Auth:
                 DefaultAuthorizer: ReporterAuthorizer
                 Authorizers:
                     ReporterAuthorizer:
                         UserPoolArn: !GetAtt ReporterCognitoUserPool.Arn
+            MethodSettings:
+                - ResourcePath: "/*"
+                  HttpMethod: "*"
+                  ThrottlingRateLimit: 1                        
     ReporterBotFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
         Properties:
@@ -49,31 +54,36 @@ Resources:
                 Variables:
                     PARAM1: VALUE
             Events:
-                Options:
+                Option:
                     Type: Api
                     Properties:
+                        RestApiId: !Ref ApiGatewayApi
                         Path: /{cors+}
-                        Method: options               
+                        Method: OPTIONS                      
                 GetReports:
                     Type: Api 
                     Properties:
+                        RestApiId: !Ref ApiGatewayApi                    
                         Path: /reports
-                        Method: get   
+                        Method: GET   
                 GetReport:
                     Type: Api 
                     Properties:
+                        RestApiId: !Ref ApiGatewayApi                         
                         Path: /report/{id+}
-                        Method: get                                        
+                        Method: GET                                        
                 PutReports:
                     Type: Api 
                     Properties:
+                        RestApiId: !Ref ApiGatewayApi                         
                         Path: /reports
-                        Method: post
+                        Method: POST
                 DeleteReports:
                     Type: Api 
                     Properties:
+                        RestApiId: !Ref ApiGatewayApi                         
                         Path: /reports
-                        Method: delete                        
+                        Method: DELETE                        
     ReportTable:
         Type: AWS::DynamoDB::Table
         Properties: 

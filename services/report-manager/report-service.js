@@ -61,6 +61,18 @@ exports.get = async (event, callback) => {
 
     let data;
     let params;
+    let userid;
+
+    // set user session id
+    var authorizer = event.requestContext.authorizer;
+    if (authorizer != null) {
+        console.log('found authorizer.claims');
+        //body.userid = authorizer.claims.sub;
+        userid = authorizer.claims.sub;
+    } else {
+        console.log('not found authorizer.claims');
+        userid = 'admin'; 
+    }
 
     if (event.pathParameters != null) {
         // id passed in.
@@ -69,7 +81,7 @@ exports.get = async (event, callback) => {
             TableName: TABLE_NAME,
             KeyConditionExpression: "#userid = :userid and #id = :id",
             ExpressionAttributeNames: {"#userid": "userid", "#id": "id"},
-            ExpressionAttributeValues: {":userid": "123", ":id": id }
+            ExpressionAttributeValues: {":userid": userid, ":id": id }
         };
         console.log('get TABLE_NAME is ' + TABLE_NAME + ', where id is ' + id);                
     } else {
@@ -78,7 +90,7 @@ exports.get = async (event, callback) => {
             ScanIndexForward: true,
             KeyConditionExpression: "#userid = :userid",
             ExpressionAttributeNames: {"#userid": "userid"},
-            ExpressionAttributeValues: {":userid": "123" }
+            ExpressionAttributeValues: {":userid": userid }
         };
         console.log('get TABLE_NAME is ' + TABLE_NAME);        
     }
@@ -96,7 +108,7 @@ exports.get = async (event, callback) => {
         return response.createResponse(404, 'ITEMS NOT FOUND\n');
     }
 
-    console.log('RETRIEVED ALL ITEMS SUCCESSFULLY WITH count = ${data.Count}');
+    console.log('RETRIEVED ALL ITEMS SUCCESSFULLY WITH count = ' + data.Count );
     return response.createResponse(200, JSON.stringify(data.Items) + '\n');
 };
 
