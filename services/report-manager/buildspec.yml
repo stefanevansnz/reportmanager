@@ -9,8 +9,3 @@ phases:
       - aws cloudformation describe-stacks --stack-name reporterbot-sam-build --query 'Stacks[].Outputs'
       - echo $CODEBUILD_SRC_DIR
       - ls -ltr $CODEBUILD_SRC_DIR
-artifacts:
-  type: zip
-  files:
-    - template.yaml
-    - outputSamTemplate.yaml
