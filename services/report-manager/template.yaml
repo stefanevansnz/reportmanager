@@ -110,13 +110,12 @@ Resources:
             - AttributeDataType: String
               Name: email
               Required: true
-  ReporterCognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-          UserPoolId: !Ref ReporterCognitoUserPool
-          ClientName: !Ref CognitoUserPoolClientName
-          GenerateSecret: false                
-
+    ReporterCognitoUserPoolClient:
+        Type: AWS::Cognito::UserPoolClient
+        Properties:
+            UserPoolId: !Ref ReporterCognitoUserPool
+            ClientName: !Ref CognitoUserPoolClientName
+            GenerateSecret: false                
 Outputs:
 
     ReporterBotApi:

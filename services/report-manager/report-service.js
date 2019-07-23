@@ -32,9 +32,10 @@ exports.post = async (event) => {
         //body.userid = authorizer.claims.sub;
         object.userid = authorizer.claims.sub;
     } else {
-        object.userid = null; 
+        console.log('not found authorizer.claims');
+        object.userid = 'admin'; 
     }
-    console.log('create TABLE_NAME is ' + TABLE_NAME + ' object is ' + JSON.stringify(object));   
+    console.log('Put TABLE_NAME is ' + TABLE_NAME + ' object is ' + JSON.stringify(object));   
             
 
     let params = {
