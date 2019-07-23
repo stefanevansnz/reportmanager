@@ -11,4 +11,4 @@ artifacts:
   type: zip
   files:
     - template.yaml
-    - outputSamTemplate.yaml
+    - template-sam-reporterbot.yaml
