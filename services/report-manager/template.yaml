@@ -13,7 +13,6 @@ Globals:
         Environment:
             Variables:
                 TABLE_NAME: !Ref ReportTable
-
     Api:
         Cors:
             AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
@@ -30,7 +29,7 @@ Resources:
     ApiGatewayApi:
         Type: AWS::Serverless::Api
         Properties:
-            StageName: prod
+            StageName: Prod
             Cors: "'*'"
             Auth:
                 DefaultAuthorizer: ReporterAuthorizer
@@ -130,7 +129,7 @@ Outputs:
 
     ReporterBotApi:
       Description: "API Gateway endpoint URL for Prod stage for Reporter Bot function"
-      Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+      Value: !Sub "https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/reports"
 
     ReporterBotFunction:
       Description: "Reporter Bot Lambda Function ARN"
